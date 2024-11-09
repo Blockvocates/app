@@ -17,6 +17,9 @@ import { useWallet } from './hooks/useWallet';
 import './styles/MissionCompletion.css';
 // import { ConnectKitButton } from "connectkit";
 import MetaMaskConnector from './components/MetamaskConnector';
+import { useAtom } from 'jotai';
+import { userAtom } from './lib/atom';
+
 
 const MissionCompletion = () => {
   const [missions, setMissions] = useState([]);
@@ -26,6 +29,11 @@ const MissionCompletion = () => {
   const [completingMission, setCompletingMission] = useState(null);
   const navigate = useNavigate();
   const toast = useToast();
+  
+  const [walletAddress] = useAtom(userAtom);
+
+  console.log("walletAddress", walletAddress);
+
 
   // Add wallet integration
   const {

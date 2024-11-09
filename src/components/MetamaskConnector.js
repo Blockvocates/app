@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { ethers } from 'ethers';
+import { useAtom } from 'jotai';
+import { userAtom } from '../lib/atom';
 
 const MetaMaskConnector = () => {
-    const [account, setAccount] = useState('');
+    const [account, setAccount] = useAtom(userAtom);
     const [chainId, setChainId] = useState(null);
     const [isConnecting, setIsConnecting] = useState(false);
     const [error, setError] = useState('');
+
+    console.log("account", account);
 
     const opencampus = {
         id: 656476,
@@ -84,6 +87,12 @@ const MetaMaskConnector = () => {
         } finally {
             setIsConnecting(false);
         }
+    };
+
+    const disconnectWallet = () => {
+        setAccount(null);
+        setChainId(null);
+        localStorage.removeItem('walletConnected');
     };
 
     const switchToOpenCampus = async () => {
@@ -172,8 +181,26 @@ const MetaMaskConnector = () => {
                     {isConnecting ? 'Connecting...' : account ? 'Connected' : 'Connect Wallet'}
                 </button>
 
+                {/* {account ? (
+                    <button
+                        onClick={disconnectWallet}
+                        className="w-full py-2 px-4 rounded-lg font-medium text-white bg-red-600 hover:bg-red-700 transition-colors duration-200"
+                    >
+                        Disconnect Wallet
+                    </button>
+                ) : (
+                    <button
+                        onClick={connectWallet}
+                        disabled={isConnecting}
+                        className={`w-full py-2 px-4 rounded-lg font-medium text-white ${isConnecting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+                            } transition-colors duration-200`}
+                    >
+                        {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+                    </button>
+                )} */}
+
                 {/* Switch Network Button */}
-                {account && chainId === "656476" ? (
+                {account && chainId === opencampus.id ? (
                     <button
                         onClick={switchToOpenCampus}
                         className="w-full py-2 px-4 rounded-lg font-medium text-white bg-purple-600 hover:bg-purple-700 transition-colors duration-200"
