@@ -29,7 +29,7 @@ const MissionCompletion = () => {
   const [completingMission, setCompletingMission] = useState(null);
   const navigate = useNavigate();
   const toast = useToast();
-  
+
   const [walletAddress] = useAtom(userAtom);
 
   console.log("walletAddress", walletAddress);
@@ -282,7 +282,7 @@ const MissionCompletion = () => {
                   colorScheme="green"
                   size="sm"
                   isLoading={completingMission === mission.id}
-                  isDisabled={!account || !missionStatusMap[mission.id]}
+                  isDisabled={!walletAddress || !missionStatusMap[mission.id]}
                   onClick={() => completeMission(mission.id)}
                 >
                   Claim Rewards
