@@ -15,6 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { useWallet } from './hooks/useWallet';
 import './styles/MissionCompletion.css';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 
 const MissionCompletion = () => {
   const [missions, setMissions] = useState([]);
@@ -26,11 +28,11 @@ const MissionCompletion = () => {
   const toast = useToast();
 
   // Add wallet integration
-  const { 
-    account, 
-    connectWallet, 
+  const {
+    account,
+    connectWallet,
     claimReward,
-    checkMissionStatus 
+    checkMissionStatus
   } = useWallet();
 
   useEffect(() => {
@@ -51,13 +53,13 @@ const MissionCompletion = () => {
 
               // Fetch missions for the user's selected path
               const missionsQuery = query(
-                collection(db, 'missions'), 
+                collection(db, 'missions'),
                 where('pathId', '==', pathId)
               );
-              
+
               const missionsSnapshot = await getDocs(missionsQuery);
               console.log("Number of missions found:", missionsSnapshot.size);
-              
+
               const missionsData = missionsSnapshot.docs.map(doc => {
                 const data = doc.data();
                 console.log("Mission data:", data);
@@ -66,7 +68,7 @@ const MissionCompletion = () => {
                   ...data
                 };
               });
-              
+
               // Fetch mission completion status
               const userMissionsQuery = query(
                 collection(db, 'userMissions'),
@@ -77,7 +79,7 @@ const MissionCompletion = () => {
               userMissionsSnapshot.docs.forEach(doc => {
                 completedMissions[doc.data().missionId] = true;
               });
-              
+
               setMissionStatusMap(completedMissions);
               setMissions(missionsData);
               setLoading(false);
@@ -212,8 +214,10 @@ const MissionCompletion = () => {
       <Heading as="h1" size="lg" color="#FFF" mb={6}>
         Mission Completion
       </Heading>
-      
+
       {/* Wallet Connection */}
+      <ConnectButton />
+
       <Box mb={4}>
         {!account ? (
           <Button
@@ -221,7 +225,7 @@ const MissionCompletion = () => {
             onClick={handleConnectWallet}
             mb={4}
           >
-            Connect Wallet to Earn Rewards
+            <ConnectButton />
           </Button>
         ) : (
           <Text color="white" mb={4}>
@@ -232,7 +236,7 @@ const MissionCompletion = () => {
 
       <Button onClick={debugMissions} mb={4}>Show Debug Info</Button>
       <Text color="white" mb={4}>Path ID: {userPathId}</Text>
-      
+
       <HStack spacing={4} overflowX="auto" className="mission-container">
         {missions.length > 0 ? (
           missions.map((mission) => (
@@ -252,9 +256,9 @@ const MissionCompletion = () => {
                 <Text color="#FFF" fontSize="sm" noOfLines={2}>{mission.objective}</Text>
               </Box>
               <VStack spacing={2}>
-                <Button 
+                <Button
                   colorScheme="blue"
-                  onClick={() => navigate(`/${mission.missionName.replace(/ /g,'')}`)}
+                  onClick={() => navigate(`/${mission.missionName.replace(/ /g, '')}`)}
                 >
                   Open Mission
                 </Button>
