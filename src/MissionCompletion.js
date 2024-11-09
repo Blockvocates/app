@@ -89,7 +89,12 @@ const MissionCompletion = () => {
 
               missionCompletionSnapshot.docs.forEach((doc) => {
                 const data = doc.data();
-                missionStatusMap[data.missionId] = data.missionStatus;
+                console.log({ data })
+                missionStatusMap[data.missionId] = {
+                  status: data.missionStatus,
+                  hash: ethers.utils.id(data.missionId + data.userId)
+                };
+
               });
               console.log("Mission status map:", missionStatusMap);
               setMissionStatusMap(missionStatusMap);
@@ -207,12 +212,15 @@ const MissionCompletion = () => {
   const clickClaimRewards = async (missionId) => {
     try {
       const { ethereum } = window;
+      console.log({ ethereum })
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const contractRewards = new ethers.Contract(missionRewardAddress, MissionRewardAbi.abi, signer);
 
-        let libraryTx = await contractRewards.completeMission(walletAddress, missionId)
+        const signer = provider.getSigner();
+        const contractRewards = new ethers.Contract(missionRewardAddress, MissionRewardAbi, signer);
+        console.log({ missionId })
+        console.log(missionStatusMap[missionId].hash)
+        let libraryTx = await contractRewards.completeMission(walletAddress, missionStatusMap[missionId].hash);
         console.log("reward claiming tx for", missionId, " mission: ", libraryTx)
       }
       else { console.log("Ethereum object do not exists") }
