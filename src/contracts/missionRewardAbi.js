@@ -1,5 +1,5 @@
 export const missionRewardAddress = "0x40BdA327da6460B106001709ef2F730825c634D8";
-export const missionTokenAddress = "0x2DE129727df37e4B7E3A51ba41fe8Bd9422490f8"
+export const missionTokenAddress = "0x2DE129727df37e4B7E3A51ba41fe8Bd9422490f8";
 export const MissionRewardAbi = [
     {
         "inputs": [
@@ -197,4 +197,4 @@ export const MissionRewardAbi = [
         "stateMutability": "nonpayable",
         "type": "function"
     }
-],
+];

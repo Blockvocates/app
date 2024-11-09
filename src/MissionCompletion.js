@@ -19,7 +19,10 @@ import './styles/MissionCompletion.css';
 import MetaMaskConnector from './components/MetamaskConnector';
 import { useAtom } from 'jotai';
 import { userAtom } from './lib/atom';
+import { ethers } from 'ethers';
+import { missionRewardAddress, MissionRewardAbi } from './contracts/missionRewardAbi';
 
+// declare let window: any;
 
 const MissionCompletion = () => {
   const [missions, setMissions] = useState([]);
@@ -201,6 +204,24 @@ const MissionCompletion = () => {
     }
   };
 
+  const clickClaimRewards = async (missionId) => {
+    try {
+      const { ethereum } = window;
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const contractRewards = new ethers.Contract(missionRewardAddress, MissionRewardAbi.abi, signer);
+
+        let libraryTx = await contractRewards.completeMission(walletAddress, missionId)
+        console.log("reward claiming tx for", missionId, " mission: ", libraryTx)
+      }
+      else { console.log("Ethereum object do not exists") }
+    }
+    catch (error) {
+      console.log("Error claiming rewards: ", error)
+    }
+  }
+
   const debugMissions = () => {
     console.log("Current missions state:", missions);
     console.log("Current user pathId:", userPathId);
@@ -283,7 +304,7 @@ const MissionCompletion = () => {
                   size="sm"
                   isLoading={completingMission === mission.id}
                   isDisabled={!walletAddress || !missionStatusMap[mission.id]}
-                  onClick={() => completeMission(mission.id)}
+                  onClick={() => clickClaimRewards(mission.id)}
                 >
                   Claim Rewards
                 </Button>
