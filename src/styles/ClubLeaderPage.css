@@ -1,0 +1,36 @@
+
+  
+  .glassmorphism-container-leader {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+  
+  .text-white {
+    color: #fff;
+  }
+
+  .container-leader {
+    background-image: url('../../public/bg.png');
+    background-size: cover; /* Fit the background image to cover the entire viewport */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent background image from repeating */
+    /* height: 100vh; */ /* Remove or comment out this line */
+    min-height: 100vh; /* Set a minimum height to ensure content visibility */
+    background-blend-mode: screen; 
+    display: flex;
+}
+  .clubMemberCard{
+    background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.2)); /* Diagonal linear gradient */
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced box shadow */
+    padding: 20px;
+    animation-name: slideIn;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in;
+  }
