@@ -78,17 +78,18 @@ const MissionCompletion = () => {
               });
 
               // Fetch mission completion status
-              const userMissionsQuery = query(
-                collection(db, 'userMissions'),
-                where('userId', '==', user.uid)
-              );
-              const userMissionsSnapshot = await getDocs(userMissionsQuery);
-              const completedMissions = {};
-              userMissionsSnapshot.docs.forEach(doc => {
-                completedMissions[doc.data().missionId] = true;
-              });
+              const missionStatusMap = {};
 
-              setMissionStatusMap(completedMissions);
+              // Fetch missionCompletion documents for the current user
+              const missionCompletionQuery = query(collection(db, 'missionCompletion'), where('userId', '==', user.email));
+              const missionCompletionSnapshot = await getDocs(missionCompletionQuery);
+
+              missionCompletionSnapshot.docs.forEach((doc) => {
+                const data = doc.data();
+                missionStatusMap[data.missionId] = data.missionStatus;
+              });
+              console.log("Mission status map:", missionStatusMap);
+              setMissionStatusMap(missionStatusMap);
               setMissions(missionsData);
               setLoading(false);
             } else {
@@ -226,7 +227,7 @@ const MissionCompletion = () => {
       {/* Wallet Connection */}
       <Center as="h1" size="lg" color="#FFF" mb={6}>
         To claim rewards :
-        <MetaMaskConnector/>
+        <MetaMaskConnector />
       </Center>
 
       <Box mb={4}>
@@ -267,25 +268,26 @@ const MissionCompletion = () => {
                 <Text color="#FFF" fontSize="sm" noOfLines={2}>{mission.objective}</Text>
               </Box>
               <VStack spacing={2}>
-                <Button
-                  colorScheme="blue"
-                  onClick={() => navigate(`/${mission.missionName.replace(/ /g, '')}`)}
-                >
-                  Open Mission
-                </Button>
                 {missionStatusMap[mission.id] ? (
                   <Text color="green.300" fontSize="sm">Completed ✓</Text>
                 ) : (
                   <Button
-                    colorScheme="green"
-                    size="sm"
-                    isLoading={completingMission === mission.id}
-                    isDisabled={!account || missionStatusMap[mission.id]}
-                    onClick={() => completeMission(mission.id)}
+                    colorScheme="blue"
+                    onClick={() => navigate(`/${mission.missionName.replace(/ /g, '')}`)}
                   >
-                    Claim Rewards
+                    Open Mission
                   </Button>
                 )}
+                < Button
+                  colorScheme="green"
+                  size="sm"
+                  isLoading={completingMission === mission.id}
+                  isDisabled={!account || !missionStatusMap[mission.id]}
+                  onClick={() => completeMission(mission.id)}
+                >
+                  Claim Rewards
+                </Button>
+
               </VStack>
             </VStack>
           ))
@@ -293,7 +295,7 @@ const MissionCompletion = () => {
           <Text color="white">No missions found. (PathId: {userPathId})</Text>
         )}
       </HStack>
-    </Box>
+    </Box >
   );
 };
 
