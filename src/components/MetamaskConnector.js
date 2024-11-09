@@ -74,7 +74,7 @@ const MetaMaskConnector = () => {
                 method: 'eth_requestAccounts'
             });
             setAccount(accounts[0]);
-            
+
             const chainId = await window.ethereum.request({
                 method: 'eth_chainId'
             });
@@ -123,67 +123,64 @@ const MetaMaskConnector = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 p-4">
-            <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
-                <div className="space-y-4">
-                    {/* Connection Status */}
-                    <div className="flex items-center justify-between">
+        <div className="">
+            <div className="space-y-4">
+                {/* Connection Status */}
+                {/* <div className="flex items-center justify-between">
                         <span className="text-gray-700 font-medium">Status:</span>
                         <span className={`px-3 py-1 rounded-full text-sm ${account ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                             {account ? 'Connected' : 'Not Connected'}
                         </span>
-                    </div>
+                    </div> */}
 
-                    {/* Account Display */}
-                    {account && (
+                {/* Account Display */}
+                {/* {account && (
                         <div className="flex items-center justify-between">
                             <span className="text-gray-700 font-medium">Account:</span>
                             <span className="text-sm font-mono bg-gray-100 px-3 py-1 rounded">
                                 {formatAddress(account)}
                             </span>
                         </div>
-                    )}
+                    )} */}
 
-                    {/* Chain ID Display */}
-                    {chainId && (
+                {/* Chain ID Display */}
+                {/* {chainId && (
                         <div className="flex items-center justify-between">
                             <span className="text-gray-700 font-medium">Chain ID:</span>
                             <span className="text-sm font-mono bg-gray-100 px-3 py-1 rounded">
                                 {chainId}
                             </span>
                         </div>
-                    )}
+                    )} */}
 
-                    {/* Error Display */}
-                    {error && (
-                        <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm">
-                            {error}
-                        </div>
-                    )}
+                {/* Error Display */}
+                {error && (
+                    <div className="bg-red-50 text-red-700 p-3 rounded-lg text-sm">
+                        {error}
+                    </div>
+                )}
 
-                    {/* Connect Button */}
-                    <button
-                        onClick={connectWallet}
-                        disabled={isConnecting}
-                        className={`w-full py-2 px-4 rounded-lg font-medium text-white ${
-                            isConnecting
-                                ? 'bg-blue-400 cursor-not-allowed'
-                                : 'bg-blue-600 hover:bg-blue-700'
+                {/* Connect Button */}
+                <button
+                    onClick={connectWallet}
+                    disabled={isConnecting}
+                    className={`w-full py-2 px-4 rounded-lg font-medium text-white ${isConnecting
+                        ? 'bg-blue-400 cursor-not-allowed'
+                        : 'bg-blue-600 hover:bg-blue-700'
                         } transition-colors duration-200`}
-                    >
-                        {isConnecting ? 'Connecting...' : account ? 'Connected' : 'Connect Wallet'}
-                    </button>
+                >
+                    {isConnecting ? 'Connecting...' : account ? 'Connected' : 'Connect Wallet'}
+                </button>
 
-                    {/* Switch Network Button */}
-                    {account && (
-                        <button
-                            onClick={switchToOpenCampus}
-                            className="w-full py-2 px-4 rounded-lg font-medium text-white bg-purple-600 hover:bg-purple-700 transition-colors duration-200"
-                        >
-                            Switch to Open Campus
-                        </button>
-                    )}
-                </div>
+                {/* Switch Network Button */}
+                {account && chainId === "656476" ? (
+                    <button
+                        onClick={switchToOpenCampus}
+                        className="w-full py-2 px-4 rounded-lg font-medium text-white bg-purple-600 hover:bg-purple-700 transition-colors duration-200"
+                    >
+                        Switch to Open Campus
+                    </button>
+                ) : null}
             </div>
         </div>
     );
