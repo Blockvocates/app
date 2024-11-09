@@ -7,6 +7,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDocs, collection, where, query } from "firebase/firestore";
 import MissionCompletion from "./MissionCompletion";
 import "./styles/Dashboard1.css"; // Import the CSS file
+// import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const DashboardTwo = () => {
   const [userName, setUserName] = useState("");
@@ -135,7 +136,7 @@ const DashboardTwo = () => {
           <Box className="glassbox-small1" p={4} textAlign="center" mx={2}>
             <Flex direction="column" alignItems="center">
               <Text fontSize="xl" color="white" mt={14} textAlign="center">
-                {clubName}
+                Club Name: {clubName}
               </Text>
               <Text fontSize="md" color="white" mt={14} textAlign="center">
                 Club Number: 00{userClubId}
@@ -149,8 +150,11 @@ const DashboardTwo = () => {
             <Box className="glassbox-small1" p={4} textAlign="center" mx={2}>
               <Flex direction="column" alignItems="center">
                 <Text fontSize="xl" color="white" mt={6} textAlign="center">
-                  {pathName}
+                  Category: {pathName}
                 </Text>
+                {/* <Text fontSize="xl" color="white" mt={6} textAlign="center">
+                  <ConnectButton />
+                </Text> */}
               </Flex>
             </Box>
           )}

@@ -15,8 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { useWallet } from './hooks/useWallet';
 import './styles/MissionCompletion.css';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-
+// import { ConnectKitButton } from "connectkit";
+import MetaMaskConnector from './components/MetamaskConnector';
 
 const MissionCompletion = () => {
   const [missions, setMissions] = useState([]);
@@ -216,10 +216,13 @@ const MissionCompletion = () => {
       </Heading>
 
       {/* Wallet Connection */}
-      <ConnectButton />
+      <Center as="h1" size="lg" color="#FFF" mb={6}>
+        To claim rewards :
+        <MetaMaskConnector/>
+      </Center>
 
       <Box mb={4}>
-        {!account ? (
+        {/* {!account ? (
           <Button
             colorScheme="blue"
             onClick={handleConnectWallet}
@@ -231,7 +234,7 @@ const MissionCompletion = () => {
           <Text color="white" mb={4}>
             Wallet Connected: {account.slice(0, 6)}...{account.slice(-4)}
           </Text>
-        )}
+        )} */}
       </Box>
 
       <Button onClick={debugMissions} mb={4}>Show Debug Info</Button>
