@@ -21,6 +21,8 @@ import { useAtom } from 'jotai';
 import { userAtom } from './lib/atom';
 import { ethers } from 'ethers';
 import { missionRewardAddress, MissionRewardAbi } from './contracts/missionRewardAbi';
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 // declare let window: any;
 
@@ -221,12 +223,37 @@ const MissionCompletion = () => {
         console.log({ missionId })
         console.log(missionStatusMap[missionId].hash)
         let libraryTx = await contractRewards.completeMission(walletAddress, missionStatusMap[missionId].hash);
-        console.log("reward claiming tx for", missionId, " mission: ", libraryTx)
+
+        toast.success("10 MSN mission reward tokens claimed!", {
+          position: "top-center"
+        });
+
+        console.log("reward claiming tx for", missionId, " mission: ", libraryTx);
+        toast(
+          <div>
+            Link - {`https://edu-chain-testnet.blockscout.com/tx/${libraryTx}`}
+            {"top-center"}
+            < button > Retry</button>
+          </div >
+        )
+
       }
       else { console.log("Ethereum object do not exists") }
     }
     catch (error) {
       console.log("Error claiming rewards: ", error)
+      toast.error("Mission transaction failed !", {
+        position: "top-right"
+      });
+
+      toast(
+        <div>
+          {/* @ts-ignore */}
+          {error?.reason}
+          {/* by default will show on top-right */}
+        </div>
+      )
+
     }
   }
 
@@ -324,6 +351,7 @@ const MissionCompletion = () => {
           <Text color="white">No missions found. (PathId: {userPathId})</Text>
         )}
       </HStack>
+      <ToastContainer />
     </Box >
   );
 };
