@@ -11,7 +11,6 @@ import {
   Center,
   HStack,
   VStack,
-  useToast,
 } from '@chakra-ui/react';
 import { useWallet } from './hooks/useWallet';
 import './styles/MissionCompletion.css';
@@ -33,7 +32,6 @@ const MissionCompletion = () => {
   const [userPathId, setUserPathId] = useState(null);
   const [completingMission, setCompletingMission] = useState(null);
   const navigate = useNavigate();
-  const toast = useToast();
 
   const [walletAddress] = useAtom(userAtom);
 
